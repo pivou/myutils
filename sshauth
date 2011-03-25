@@ -1,0 +1,41 @@
+#! /bin/bash
+
+# sshautorize - skripta za vspostavitev passwordless ssh-ja
+#
+# scripta prenese moje public key na target masino
+#
+# USAGE sshauth user@remotehost
+
+CERT=~/.ssh/id_rsa.pub
+
+if [[ $# -ne 1 ]]
+then
+	echo "Need target username@host"
+	exit 1
+fi
+TARGET=$1
+
+# Preverimo ce imamo certifikat
+if [[ ! -e $CERT ]]
+then
+	echo "Public key not found in $CERT"
+	echo "Generating (ssh-keygen -t rsa)"
+	ssh-keygen -t rsa
+fi
+# prenesemo paket
+cat $CERT | ssh $TARGET  "cat  >> ~/.ssh/authorized_keys"
+
+# preverimo
+
+TMP=$(tempfile)
+ssh $TARGET "tail -n 1 ~/.ssh/authorized_keys" > $TMP
+OUT=$(diff $CERT $TMP)
+rm $TMP
+
+if [[ $OUT != "" ]]
+then
+	echo "Zadnja vrstica v $TARGET authorized_keys se ne ujenma z nasim id_ras.pub"
+	echo "Preveri Diffe:"
+	echo $OUT 
+fi
+
