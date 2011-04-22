@@ -1,3 +1,8 @@
+#! /bin/bash
+
+# I got most of this script from some blog post
+# but forgot where, so I cant credit original author.
+
 export `xinput list | grep -i touchpad | awk '{ print $6 }'`
 TOUCH_ENABLED=`xinput list-props $id | grep Device\ Enabled | awk '{ print $4 }'`
 if [ $TOUCH_ENABLED = 0 ]; then
