@@ -1,0 +1,13 @@
+#!/usr/bin/env xdg-open
+
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=false
+Icon[en_US]=orca
+Name[en_US]=TouchPad-ON/OFF
+Exec=/home/lukamarinko/utils/touch.sh
+Comment[en_US]=Toggles touchpad on or off
+Name=TouchPad-ON/OFF
+Comment=Toggles touchpad on or off
+Icon=orca
